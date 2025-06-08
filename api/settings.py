@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-!pg+une%yk-emby)ka^95j98m66x=9sjl#rsd^d&wz7rmoppm6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-APP_NAME = os.environ.get("KarirZone")
+APP_NAME = os.environ.get("APP_NAME")
 ALLOWED_HOSTS = ["*"]
 
 # pagination
