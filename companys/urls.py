@@ -5,5 +5,5 @@ import companys.views as views
 # router.register('jobs', views.JobsView)
 
 urlpatterns = [
-    path("companys", views.companys, name='companys'),
+    path("", views.companys, name='companys'),
 ]
