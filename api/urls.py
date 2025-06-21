@@ -19,7 +19,10 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
+
+from api.views import landing_page
 urlpatterns = [
+    path("", landing_page, name='home'),
     path('admin/', admin.site.urls),
     path("api/jobs/", include("jobs.urls")),
     path("api/banners/", include("banners.urls")),
