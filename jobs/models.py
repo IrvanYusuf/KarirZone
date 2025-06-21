@@ -7,7 +7,7 @@ from companys.models import Company
 
 class Job(models.Model):
     id = models.UUIDField(primary_key=True, max_length=36,
-                          default=uuid.uuid4(), editable=False)
+                          default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=255)
     company = models.ForeignKey(
         Company, on_delete=models.CASCADE, related_name='jobs')

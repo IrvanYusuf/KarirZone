@@ -12,7 +12,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
 
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -42,6 +44,12 @@ REST_FRAMEWORK = {
     #     'anon': '2/s',     # Maks 2 request per detik untuk anonim
     #     'user': '5/second',     # Maks 5 request per detik untuk user login
     # }
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'KarirZone - Job Tracker API',
+    'DESCRIPTION': 'Dokumentasi untuk aplikasi pencarian kerja',
+    'VERSION': '1.0.0',
 }
 
 
@@ -97,8 +105,12 @@ WSGI_APPLICATION = 'api.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
     }
 }
 

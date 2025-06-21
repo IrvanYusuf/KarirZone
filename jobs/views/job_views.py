@@ -100,3 +100,20 @@ def delete_job(request, job_id):
             errors={"job_id": "Job dengan ID tersebut tidak ada"},
             status_code=status.HTTP_404_NOT_FOUND
         )
+
+
+@extend_schema(
+    tags=['Jobs']
+)
+@api_view(['GET'])
+def get_other_jobs_same_company(request, company_id):
+    try:
+        jobs_company = Job.objects.filter(company=company_id)
+        serializer = JobSerializer(jobs_company, many=True)
+        return success_response(serializer.data, "Berhasil mendapatkan data jobs dari company yang sama")
+    except Exception as e:
+        return error_response(
+            message="Internal server error",
+            errors={"server": "Internal server error"},
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
