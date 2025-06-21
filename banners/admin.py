@@ -1,11 +1,12 @@
 from django.contrib import admin
 from banners.models import Banner
 from django.utils.html import format_html
+from unfold.admin import ModelAdmin
 # Register your models here.
 
 
 @admin.register(Banner)
-class AdminBanner(admin.ModelAdmin):
+class AdminBanner(ModelAdmin):
     list_display = ['number', 'url', 'image_preview']
     readonly_fields = ['image_preview_detail']
 

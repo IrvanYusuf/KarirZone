@@ -1,12 +1,13 @@
 from django.contrib import admin
 import jobs.models as models
 from utils.format_rupiah import format_rupiah
+from unfold.admin import ModelAdmin
 
 # Register your models here.
 
 
 @admin.register(models.Job)
-class AdminJob(admin.ModelAdmin):
+class AdminJob(ModelAdmin):
     list_display = ['title', 'get_salary', 'get_company', 'is_remote']
 
     def get_company(self, obj):
