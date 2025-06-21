@@ -6,4 +6,5 @@ import companys.views as views
 
 urlpatterns = [
     path("", views.companys, name='companys'),
+    path("<str:company_id>", views.get_company, name='get_company'),
 ]

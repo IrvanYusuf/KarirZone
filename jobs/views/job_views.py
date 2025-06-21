@@ -4,7 +4,7 @@ from rest_framework import status
 from utils.api_response import success_response, error_response
 from rest_framework.decorators import api_view
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 # Create your views here.
 
 
@@ -17,7 +17,21 @@ def create_job(request):
 
 
 @extend_schema(
-    tags=['Jobs']
+    tags=['Jobs'],
+    methods=['POST'],
+    request=JobSerializer,
+    # responses={201: JobSerializer}
+)
+@extend_schema(
+    tags=['Jobs'],
+    methods=['GET'],
+    responses=JobSerializer(many=True),
+    parameters=[
+        OpenApiParameter(name='page', required=False, type=int,
+                         location=OpenApiParameter.QUERY),
+        OpenApiParameter(name='per_page', required=False,
+                         type=int, location=OpenApiParameter.QUERY),
+    ]
 )
 @api_view(['GET', 'POST'])
 def jobs(request):
@@ -34,16 +48,20 @@ def jobs(request):
         except PageNotAnInteger:
             paginated_jobs = paginator.page(1)
         except EmptyPage:
-            paginated_jobs = paginator.page(paginator.num_pages)
+            return error_response(
+                message="Halaman tidak ditemukan",
+                errors={"page": "Page number melebihi jumlah total halaman"},
+                status_code=404
+            )
 
-        serializer = JobSerializer(paginated_jobs, many=True)
+    serializer = JobSerializer(paginated_jobs, many=True)
 
-        return success_response(
-            data=serializer.data,
-            is_have_pagination=True,
-            paginated_page=paginated_jobs,
-            paginator=paginator
-        )
+    return success_response(
+        data=serializer.data,
+        is_have_pagination=True,
+        paginated_page=paginated_jobs,
+        paginator=paginator
+    )
 
 
 @extend_schema(

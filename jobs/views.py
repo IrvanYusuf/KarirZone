@@ -8,6 +8,17 @@ from drf_spectacular.utils import extend_schema, OpenApiResponse
 # Create your views here.
 
 
+# @extend_schema(
+#     tags=['Jobss'],
+#     methods=['POST'],
+#     request=JobSerializer,
+#     # responses={201: JobSerializer}
+# )
+# @extend_schema(
+#     tags=['Jobs'],
+#     methods=['GET'],
+#     responses=JobSerializer(many=True)
+# )
 def create_job(request):
     serializer = JobSerializer(data=request.data)
     if serializer.is_valid():
@@ -16,9 +27,6 @@ def create_job(request):
     return error_response(errors=serializer.errors, message="Validasi gagal", status_code=status.HTTP_400_BAD_REQUEST)
 
 
-@extend_schema(
-    tags=['Jobs']
-)
 @api_view(['GET', 'POST'])
 def jobs(request):
     if request.method == 'POST':
